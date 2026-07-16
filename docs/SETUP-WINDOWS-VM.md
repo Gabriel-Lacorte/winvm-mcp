@@ -25,7 +25,7 @@ OpenSSH, kernel debugging, complete memory dumps, and the `livekd` launcher.
 | VMware Workstation/Player | `vmrun -v` |
 | Python ≥ 3.11 | `python3 --version` |
 | `vmrun` on PATH | `which vmrun` |
-| vmnets active | `ls /dev/vmnet*` → vmnet0/1/8 |
+| vmnets active | `ls /dev/vmnet*` -> vmnet0/1/8 |
 
 ---
 
@@ -156,7 +156,7 @@ winvm-mcp --version
 
 ## Step 5 — Register with your MCP client
 
-See the README → "Register with an MCP client". In short, add a stdio server
+See the README -> "Register with an MCP client". In short, add a stdio server
 entry pointing at `winvm-mcp` with `WINVM_MCP_CONFIG` set.
 
 ---
@@ -165,7 +165,7 @@ entry pointing at `winvm-mcp` with `WINVM_MCP_CONFIG` set.
 
 A loop that combines static analysis (IDA/Ghidra MCP) with this server:
 
-1. **Static** — find a dangerous `ioctl` handler, an unchecked `memcpy`, etc.
+1. **Static** find a dangerous `ioctl` handler, an unchecked `memcpy`, etc.
    Note offsets / structs.
 2. **Prepare the target**
    ```
@@ -196,21 +196,21 @@ A loop that combines static analysis (IDA/Ghidra MCP) with this server:
      ssh_powershell("whoami /priv; whoami /groups")
      kd_token("0n<winlogon_pid>")
      ```
-6. **Reproduce** — `snapshot_revert("target-ready")` and run again.
-7. **Report** — the model consolidates offsets (static), kernel trace (`kd`),
+6. **Reproduce** `snapshot_revert("target-ready")` and run again.
+7. **Report** the model consolidates offsets (static), kernel trace (`kd`),
    and userland evidence (`ssh`) into a single write-up.
 
 ---
 
 ## Lab hardening (do not skip)
 
-- **Isolated network** — NAT/host-only only; never bridged onto a LAN you care
+- **Isolated network** NAT/host-only only; never bridged onto a LAN you care
   about.
-- **Frequent snapshots** — always revert before a new PoC.
-- **No real credentials** — the `researcher` account lives only in the VM.
-- **Local transport only** — the server speaks stdio; never expose it to a
+- **Frequent snapshots** always revert before a new PoC.
+- **No real credentials** the `researcher` account lives only in the VM.
+- **Local transport only** the server speaks stdio; never expose it to a
   network (see [`THREAT-MODEL.md`](THREAT-MODEL.md)).
-- **Forensic auditing (optional)** — `auditpol /set /category:* /success:enable
+- **Forensic auditing (optional)** `auditpol /set /category:* /success:enable
   /failure:enable`.
 
 ---
