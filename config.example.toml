@@ -1,0 +1,42 @@
+# winvm-mcp configuration.
+# Copy this file to config.toml and fill in your values.
+# config.toml is git-ignored — it never leaves your machine.
+
+[vm]
+# Absolute path to the .vmx of your Windows VM on the Linux host.
+vmx = "/home/user/vmware/win10/win10.vmx"
+
+# Local account inside the Windows guest used by vmrun (VMware Tools auth).
+# Must have admin rights. Created by guest-bootstrap/00-base.ps1.
+username = "researcher"
+password = "REPLACE_ME"
+
+# --- SSH (used by ssh_* and kd_* tools) -------------------------------------
+# Leave ssh_host empty to disable SSH-based tools (vm_* and guest_* still work).
+ssh_host = "192.168.184.128"   # typical vmnet8 (NAT) DHCP address
+ssh_port = 22
+ssh_username = "researcher"
+ssh_password = "REPLACE_ME"
+
+# Host-key verification policy:
+#   "auto_add"    - accept and remember any host key (convenient; MITM risk)
+#   "known_hosts" - load ~/.ssh/known_hosts and reject unknown hosts (safe)
+# For a lab VM that is frequently reverted, "auto_add" is pragmatic.
+ssh_host_key_policy = "auto_add"
+
+# --- Debugger (inside the guest) --------------------------------------------
+# Path to cdb.exe / kd.exe (Debugging Tools for Windows x64).
+# Installed by guest-bootstrap/20-windbg.ps1.
+debugger_path = 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\cdb.exe'
+
+# Working directory inside the guest (created on demand). The livekd launcher
+# (kd-livekd.bat) is expected here — provisioned by 30-livekd-launcher.ps1.
+guest_workdir = 'C:\winvm-mcp'
+
+# --- Host-side vmrun --------------------------------------------------------
+# vmrun binary on the host (Workstation default).
+vmrun = "/usr/bin/vmrun"
+
+# Product-type flag. On plain Workstation leave this blank.
+# Use "-T ws" only if your vmrun build complains about the product.
+vmrun_type = ""

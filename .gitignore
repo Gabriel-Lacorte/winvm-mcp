@@ -1,0 +1,34 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+build/
+dist/
+*.whl
+
+# --- Virtualenvs ---
+.venv/
+venv/
+env/
+
+# --- Tool caches ---
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.cache/
+
+# --- Editor / OS ---
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# --- winvm-mcp runtime / secrets ---
+# NEVER commit the live config (it holds guest credentials).
+config.toml
+# Local screenshots / dumps pulled from the guest.
+screenshots/
+*.dmp
+*.mdmp

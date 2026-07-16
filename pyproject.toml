@@ -1,0 +1,120 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "winvm-mcp"
+version = "1.0.0"
+description = "MCP server driving a VMware Windows VM (lifecycle, SSH guest ops, kernel debugging) for security research."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "winvm-mcp contributors" }]
+keywords = [
+    "mcp",
+    "model-context-protocol",
+    "vmware",
+    "windows",
+    "kernel-debugging",
+    "security-research",
+    "windbg",
+    "cdb",
+    "livekd",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: System :: Operating System Kernels",
+]
+
+dependencies = [
+    "mcp[cli]>=1.2.0",
+    "paramiko>=3.4",
+]
+
+[project.scripts]
+winvm-mcp = "winvm_mcp.server:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-timeout>=2.3",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "build>=1.2",
+]
+
+# --- Packaging: src layout ---
+[tool.hatch.build.targets.wheel]
+packages = ["src/winvm_mcp"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "guest-bootstrap", "docs", "README.md", "LICENSE"]
+
+# --------------------------------------------------------------------------- #
+# Ruff — lint + format
+# --------------------------------------------------------------------------- #
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "C4",   # flake8-comprehensions
+    "FA",   # flake8-future-annotations
+    "PL",   # pylint
+]
+ignore = [
+    "E501",   # line length handled by formatter
+    "PLR0913", # too-many-arguments (tool functions legitimately take many)
+    "PLR2004", # magic-value-in-comparison (fine in tests/tools)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["PLR2004", "S101", "PLR0915", "PLR0912"]
+# Each tool module's register() groups many small tool definitions by design.
+"src/winvm_mcp/tools/*.py" = ["PLR0915", "PLR0912"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+# --------------------------------------------------------------------------- #
+# mypy — static typing
+# --------------------------------------------------------------------------- #
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src"]
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["paramiko.*"]
+ignore_missing_imports = true
+
+# --------------------------------------------------------------------------- #
+# pytest
+# --------------------------------------------------------------------------- #
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "integration: tests that require a live Windows VM (skipped by default)",
+]
+
