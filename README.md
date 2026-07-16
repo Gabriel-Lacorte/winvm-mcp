@@ -30,22 +30,6 @@ works on any host distro.
 
 ---
 
-## Architecture in one paragraph
-
-Four layers of tools, one shared context:
-
-```
-┌────────────────────────────────┐        ┌─────────────────────────────────┐
-│  Host (Linux)                  │        │  Guest Windows (VMware)         │
-│                                │        │                                 │
-│  MCP client + winvm-mcp        │ vmrun  │  VMware Tools (vmrun auth)      │
-│   ├─ vm_* / snapshot_*  ───────┼────────┼─▶ ├─ lifecycle + snapshots      │
-│   ├─ guest_* (vmrun)    ───────┼────────┼─▶ ├─ exec / files / screen      |
-│   ├─ ssh_*              ─── SSH:22 ─────┼─▶ ├─ OpenSSH: PowerShell / cmd  │
-│   └─ kd_* / analyze_*   ─── SSH:22 ─────┼─▶ └─ cdb.exe / livekd.exe       │
-└────────────────────────────────┘        └─────────────────────────────────┘
-```
-
 See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the layered design and
 [`docs/THREAT-MODEL.md`](docs/THREAT-MODEL.md) for the security posture.
 
