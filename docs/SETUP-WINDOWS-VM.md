@@ -6,13 +6,13 @@ OpenSSH, kernel debugging, complete memory dumps, and the `livekd` launcher.
 
 ```
 ┌────────────────────────────────┐        ┌─────────────────────────────────┐
-│  Host (Linux)                  │        │  Guest Windows 10/11 (VMware)   │
+│  Host (Linux)                  │        │  Guest Windows (VMware)         │
 │                                │        │                                 │
 │  MCP client + winvm-mcp        │ vmrun  │  VMware Tools (vmrun auth)      │
-│   ├─ vm_* / snapshot_*  ───────┼────────┼─▶ lifecycle + snapshots         │
-│   ├─ guest_* (vmrun)    ───────┼────────┼─▶ exec / files / screen          │
-│   ├─ ssh_*               ── SSH:22 ─────▶ OpenSSH ─ PowerShell / cmd       │
-│   └─ kd_* / analyze_*   ── SSH:22 ─────▶ cdb.exe / livekd.exe (kernel)    │
+│   ├─ vm_* / snapshot_*  ───────┼────────┼─▶ ├─ lifecycle + snapshots      │
+│   ├─ guest_* (vmrun)    ───────┼────────┼─▶ ├─ exec / files / screen      |
+│   ├─ ssh_*              ─── SSH:22 ─────┼─▶ ├─ OpenSSH: PowerShell / cmd  │
+│   └─ kd_* / analyze_*   ─── SSH:22 ─────┼─▶ └─ cdb.exe / livekd.exe       │
 └────────────────────────────────┘        └─────────────────────────────────┘
 ```
 
