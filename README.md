@@ -138,7 +138,7 @@ install, point `command` at the venv Python and `args` at `-m winvm_mcp`:
 
 ---
 
-## Threat model (summary)
+## Threat model
 
 This server is **RCE + kernel-memory-access by design**, intended to run on a
 researcher's host against a VM they own. **Keep the transport local (stdio) and
